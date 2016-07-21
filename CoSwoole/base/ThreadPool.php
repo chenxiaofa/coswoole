@@ -13,24 +13,50 @@ class ThreadPool extends ConfigurableObject
 	public $maxThread = 100;
 	public $startThread = 5;
 	private $threads = [];
-	private $free_threads = [];
-	protected $thread_num = 0;
+	private $freeThreads = [];
+	protected $threadNum = 0;
 	public $threadClass = 'coswoole\\base\\CoThread';
 	public function init()
 	{
 		for($i=0;$i<$this->startThread;$i++)
 		{
-			$this->incr_thread();
+			$this->newThread();
 		}
 		parent::init();
 	}
 
-	private function incr_thread()
+	/**
+	 *
+	 */
+	private function newThread()
 	{
 		$thread = new $this->threadClass();
-		$this->free_threads[] = $thread;
+		$this->freeThreads[] = $thread;
 		$this->threads[] = $thread;
-		$this->thread_num++;
+		$this->threadNum++;
+		$thread->threadPool = $this;
+	}
+
+	/**
+	 * @return bool|mixed
+	 */
+	public function getFreeThread()
+	{
+		if (empty($this->freeThreads))
+		{
+			if ( $this->threadNum >= $this->maxThread)
+			{
+				return false;
+			}
+			$this->newThread();
+		}
+		return array_pop($this->freeThreads);
+	}
+
+
+	public function releaseThread($thread)
+	{
+		$this->freeThreads[] = $thread;
 	}
 
 }

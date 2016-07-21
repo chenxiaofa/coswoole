@@ -8,8 +8,14 @@
 namespace coswoole\base;
 
 
-class Application extends ConfigurableObject
+abstract class Application extends ConfigurableObject
 {
 	public $asyncMysql = null;
+	/** @var threadPool  */
 	public $threadPool = null;
+
+	abstract public function run();
+
+
+
 }

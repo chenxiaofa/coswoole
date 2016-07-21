@@ -6,9 +6,12 @@
  */
 
 require 'CoSwoole/autoload.php';
+require 'CoSwoole/CoSwoole.php';
 
-$config = require __DIR__.'/app/config/web.php';
+$config = require __DIR__ . '/CoSwoole/app/config/web.php';
 
 $app = new coswoole\web\Application($config);
 
-print_r($app);
+$app->run();
+
+echo 'run\n';

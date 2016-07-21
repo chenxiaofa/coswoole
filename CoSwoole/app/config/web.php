@@ -7,7 +7,11 @@
 return [
 	'threadPool'=>[
 		'class'=>\coswoole\base\ThreadPool::className(),
-		'maxThread'=>100,
-		'startThread'=>5,
-	]
+		'threadClass'=>'coswoole\web\WebThread',
+		'maxThread'=>10000,
+		'startThread'=>10000,
+	],
+	'host'=>'0.0.0.0',
+	'port'=>'9502',
+	'worker'=>1
 ];

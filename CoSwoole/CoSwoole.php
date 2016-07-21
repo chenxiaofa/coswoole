@@ -7,5 +7,12 @@
 
 class CoSwoole
 {
-
+	public static function msSleep($u)
+	{
+		$thread = \Coroutine::running();
+		\swoole_timer_after($u,function()use($thread){
+			$thread->resume();
+		});
+		\Coroutine::yield();
+	}
 }
