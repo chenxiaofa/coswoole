@@ -5,24 +5,27 @@
  * Time: 14:14
  */
 
-namespace coswoole\base;
-
-
-class ThreadPool extends ConfigurableObject
+class ThreadPool
 {
 	public $maxThread = 100;
 	public $startThread = 5;
 	private $threads = [];
 	private $freeThreads = [];
 	protected $threadNum = 0;
-	public $threadClass = 'coswoole\\base\\CoThread';
-	public function init()
+
+	public function __construct($start,$max)
+	{
+		$this->maxThread = $max;
+		$this->startThread = $start;
+		$this->initThread();
+	}
+
+	public function initThread()
 	{
 		for($i=0;$i<$this->startThread;$i++)
 		{
 			$this->newThread();
 		}
-		parent::init();
 	}
 
 	/**
@@ -30,11 +33,10 @@ class ThreadPool extends ConfigurableObject
 	 */
 	private function newThread()
 	{
-		$thread = new $this->threadClass();
+		$thread = new WebThread();
 		$this->freeThreads[] = $thread;
 		$this->threads[] = $thread;
 		$this->threadNum++;
-		$thread->threadPool = $this;
 	}
 
 	/**

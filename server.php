@@ -5,13 +5,11 @@
  * Time: 13:28
  */
 
-require 'CoSwoole/autoload.php';
 require 'CoSwoole/CoSwoole.php';
 
-$config = require __DIR__ . '/CoSwoole/app/config/web.php';
+$config = require __DIR__ . '/CoSwoole/web.php';
 
-$app = new coswoole\web\Application($config);
+CoSwoole::run($config);
 
-$app->run();
 
 echo 'run\n';
